@@ -29,15 +29,15 @@ export default function Header() {
               Home
             </a>
 
-            <a href="#games" className="transition hover:text-cyan-400">
+            <a href="/games" className="transition hover:text-cyan-400">
               Games
             </a>
 
-            <a href="#live" className="transition hover:text-pink-500">
+            <a href="/live" className="transition hover:text-pink-500">
               LIVE
             </a>
 
-            <a href="#community" className="transition hover:text-cyan-400">
+            <a href="/community" className="transition hover:text-cyan-400">
               Community
             </a>
           </nav>

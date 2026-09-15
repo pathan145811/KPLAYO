@@ -118,7 +118,7 @@ export default function Home() {
           </div>
 
           <a
-            href="#games"
+            href="/games"
             className="w-fit rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold transition hover:border-cyan-400 hover:text-cyan-400"
           >
             View All Games →
@@ -275,7 +275,7 @@ export default function Home() {
             </div>
 
             <a
-              href="#live"
+              href="/live"
               className="w-fit rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold transition hover:border-pink-500 hover:text-pink-400"
             >
               View All LIVE →
@@ -412,7 +412,7 @@ export default function Home() {
           </div>
 
           <a
-            href="#community"
+            href="/community"
             className="w-fit rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold transition hover:border-cyan-400 hover:text-cyan-400"
           >
             Explore Community →
@@ -583,7 +583,7 @@ export default function Home() {
 
             {/* K-Coins */}
             <a
-              href="#economy"
+              href="/wallet"
               className="group rounded-3xl border border-cyan-400/20 bg-cyan-400/[0.04] p-7 transition duration-300 hover:-translate-y-2 hover:border-cyan-400/50"
             >
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-cyan-400/20 bg-cyan-400/10">
@@ -701,7 +701,7 @@ export default function Home() {
           </div>
 
           <a
-            href="#events"
+            href="/events"
             className="w-fit rounded-full border border-white/15 px-5 py-2.5 text-sm font-semibold transition hover:border-pink-500 hover:text-pink-400"
           >
             View All Events →
