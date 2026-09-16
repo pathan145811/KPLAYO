@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #050505;
+  --foreground: #ffffff;
+
+  --kplayo-black: #050505;
+  --kplayo-surface: #0b0b0f;
+  --kplayo-surface-soft: #111118;
+
+  --kplayo-white: #ffffff;
+  --kplayo-muted: #a1a1aa;
+
+  --kplayo-blue: #00a8ff;
+  --kplayo-cyan: #00e5ff;
+  --kplayo-pink: #ff2bd6;
+  --kplayo-purple: #8b5cf6;
+
+  --kplayo-border: rgba(255, 255, 255, 0.1);
+  --kplayo-glass: rgba(255, 255, 255, 0.05);
+
+  --font-sans: Arial, Helvetica, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-kplayo-black: var(--kplayo-black);
+  --color-kplayo-surface: var(--kplayo-surface);
+  --color-kplayo-surface-soft: var(--kplayo-surface-soft);
+
+  --color-kplayo-blue: var(--kplayo-blue);
+  --color-kplayo-cyan: var(--kplayo-cyan);
+  --color-kplayo-pink: var(--kplayo-pink);
+  --color-kplayo-purple: var(--kplayo-purple);
+
+  --color-kplayo-muted: var(--kplayo-muted);
+  --color-kplayo-border: var(--kplayo-border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--kplayo-black);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(0, 168, 255, 0.08),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(255, 43, 214, 0.07),
+      transparent 30%
+    ),
+    var(--kplayo-black);
+  color: var(--kplayo-white);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(0, 229, 255, 0.25);
+  color: #ffffff;
 }
