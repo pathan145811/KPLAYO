@@ -1,42 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import Link from "next/link";
 
-const contactChannels = [
+const channels = [
   {
+    id: "general",
     number: "01",
-    icon: "◉",
-    label: "GENERAL",
+    label: "General",
     title: "Talk to KPLAYO",
     description:
-      "Questions, ideas, feedback or anything you want to tell the KPLAYO team.",
-    accent: "#ff1493",
-    glow: "rgba(255,20,147,0.18)",
+      "Questions about the platform, your experience, features, or anything KPLAYO related.",
+    accent: "#22d3ee",
+    border: "rgba(34,211,238,0.30)",
+    background: "rgba(34,211,238,0.06)",
   },
   {
+    id: "partnerships",
     number: "02",
-    icon: "↗️",
-    label: "PARTNERSHIPS",
-    title: "Build With Us",
+    label: "Partnerships",
+    title: "Build with us",
     description:
-      "Creators, brands, studios and businesses interested in working with KPLAYO.",
-    accent: "#00aaff",
-    glow: "rgba(0,170,255,0.18)",
+      "For creators, brands, developers, publishers, and strategic collaboration opportunities.",
+    accent: "#a78bfa",
+    border: "rgba(167,139,250,0.30)",
+    background: "rgba(167,139,250,0.06)",
   },
   {
+    id: "support",
     number: "03",
-    icon: "✦",
-    label: "SUPPORT",
-    title: "Need Help?",
+    label: "Support",
+    title: "Get help",
     description:
-      "Account, safety, moderation, K-Coins, LIVE or platform-related support.",
-    accent: "#a855f7",
-    glow: "rgba(168,85,247,0.18)",
+      "Need assistance with your account, games, LIVE, K-Coins, safety, or another platform issue?",
+    accent: "#ec4899",
+    border: "rgba(236,72,153,0.30)",
+    background: "rgba(236,72,153,0.06)",
   },
 ];
 
-const quickTopics = [
+const topics = [
   "Account & Login",
   "Games",
   "LIVE",
@@ -46,13 +49,15 @@ const quickTopics = [
 ];
 
 export default function ContactPage() {
-  const [topic, setTopic] = useState("General");
+  const [activeChannel, setActiveChannel] = useState("general");
+  const [topic, setTopic] = useState("Account & Login");
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
 
-  const maxCharacters = 500;
+  const active =
+    channels.find((channel) => channel.id === activeChannel) ?? channels[0];
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     if (!message.trim()) {
@@ -62,479 +67,633 @@ export default function ContactPage() {
     setSent(true);
   }
 
+  function resetMessage() {
+    setMessage("");
+    setSent(false);
+  }
+
   return (
-    <main className="min-h-screen overflow-hidden bg-[#030407] text-white">
-      {/* Ambient background */}
-      <div className="pointer-events-none fixed inset-0 -z-10">
-        <div
-          className="absolute left-[-15%] top-[-10%] h-[500px] w-[500px] rounded-full blur-[140px]"
-          style={{ background: "rgba(255,20,147,0.10)" }}
-        />
-        <div
-          className="absolute right-[-15%] top-[20%] h-[550px] w-[550px] rounded-full blur-[150px]"
-          style={{ background: "rgba(0,170,255,0.10)" }}
-        />
-        <div
-          className="absolute bottom-[-15%] left-[35%] h-[450px] w-[450px] rounded-full blur-[150px]"
-          style={{ background: "rgba(168,85,247,0.08)" }}
-        />
+    <main className="min-h-screen overflow-hidden bg-[#030409] text-white">
+      {/* Ambient system background */}
+      <div className="pointer-events-none fixed inset-0 -z-0">
+        <div className="absolute left-[4%] top-[8%] h-80 w-80 rounded-full bg-cyan-400/[0.08] blur-[130px]" />
+        <div className="absolute right-[5%] top-[22%] h-96 w-96 rounded-full bg-fuchsia-500/[0.08] blur-[150px]" />
+        <div className="absolute bottom-[10%] left-[35%] h-96 w-96 rounded-full bg-blue-600/[0.07] blur-[150px]" />
       </div>
 
-      {/* Top navigation */}
-      <header className="border-b border-white/[0.07] bg-black/40 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-          <Link
-            href="/"
-            className="group flex items-center gap-3"
-            aria-label="KPLAYO home"
-          >
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/10">
-              <span className="text-lg font-black text-cyan-300">K</span>
-              <span className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-pink-400 shadow-[0_0_12px_rgba(255,20,147,0.9)]" />
-            </div>
-
-            <div>
-              <div className="text-lg font-black tracking-[0.18em]">
-                KPLAYO
-              </div>
-              <div className="text-[8px] uppercase tracking-[0.35em] text-white/35">
-                Play. Connect. Live.
-              </div>
-            </div>
+      {/* Header */}
+      <header className="relative z-30 border-b border-white/10 bg-black/55 backdrop-blur-2xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-8">
+          <Link href="/" className="shrink-0">
+            <img
+              src="/brand/kplayo_logo_horizontal_white_transparent.svg"
+              alt="KPLAYO"
+              className="h-9 w-auto"
+            />
           </Link>
 
+          <nav className="hidden items-center gap-7 text-sm text-white/60 lg:flex">
+            <Link href="/" className="transition hover:text-white">
+              Home
+            </Link>
+            <Link href="/games" className="transition hover:text-white">
+              Games
+            </Link>
+            <Link href="/live" className="transition hover:text-white">
+              LIVE
+            </Link>
+            <Link href="/community" className="transition hover:text-white">
+              Community
+            </Link>
+            <Link href="/support" className="transition hover:text-white">
+              Support
+            </Link>
+          </nav>
+
           <Link
             href="/"
-            className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-sm font-semibold transition hover:border-cyan-400/40 hover:bg-cyan-400/10"
-            style={{ color: "#ffffff" }}
+            className="rounded-full bg-white px-5 py-2.5 text-sm font-black transition hover:scale-[1.03]"
+            style={{ color: "#000000" }}
           >
-            Back to KPLAYO
+            Back Home
           </Link>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="relative px-6 pb-20 pt-16 sm:pb-28 sm:pt-24">
-        <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+      <section className="relative z-10">
+        <div className="mx-auto grid max-w-7xl gap-16 px-6 pb-24 pt-20 lg:grid-cols-[1fr_0.9fr] lg:items-center lg:px-8 lg:pb-28 lg:pt-28">
           <div>
-            <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-pink-400/20 bg-pink-400/[0.06] px-4 py-2">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-pink-400 shadow-[0_0_14px_rgba(255,20,147,0.9)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-pink-300">
-                KPLAYO Contact Hub
-              </span>
+            <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-fuchsia-400/20 bg-fuchsia-400/[0.05] px-4 py-2 text-xs font-bold uppercase tracking-[0.25em] text-fuchsia-300">
+              <span className="h-2 w-2 rounded-full bg-fuchsia-300 shadow-[0_0_15px_rgba(244,114,182,0.9)]" />
+              KPLAYO Contact Hub
             </div>
 
-            <h1 className="max-w-4xl text-5xl font-black leading-[0.94] tracking-[-0.05em] sm:text-7xl lg:text-8xl">
-              Your message.
-              <br />
-              <span
-                className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-300 bg-clip-text text-transparent"
-              >
-                Our next move.
+            <h1 className="max-w-4xl text-5xl font-black leading-[0.94] tracking-[-0.045em] sm:text-6xl lg:text-8xl">
+              Start the
+              <span className="block bg-gradient-to-r from-cyan-300 via-blue-400 to-fuchsia-500 bg-clip-text text-transparent">
+                conversation.
               </span>
             </h1>
 
-            <p className="mt-7 max-w-2xl text-base leading-7 text-white/55 sm:text-lg">
-              KPLAYO is being built around people. Tell us what you need,
-              what you want to see, or what we could build together.
+            <p className="mt-8 max-w-2xl text-base leading-8 text-white/50 sm:text-lg">
+              Whether you need help, want to build something together, or
+              simply have a question, send your message into the KPLAYO
+              network.
             </p>
 
-            <div className="mt-9 flex flex-wrap gap-3">
-              {["Questions", "Ideas", "Support", "Partnerships"].map(
-                (item, index) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-xs font-semibold text-white/55"
-                  >
-                    <span
-                      className={
-                        index % 2 === 0
-                          ? "mr-2 text-pink-400"
-                          : "mr-2 text-cyan-400"
-                      }
-                    >
-                      +
-                    </span>
-                    {item}
-                  </span>
-                ),
-              )}
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="#message-console"
+                className="rounded-full bg-white px-7 py-4 text-center text-sm font-black uppercase tracking-[0.16em] transition hover:scale-[1.03]"
+                style={{ color: "#000000" }}
+              >
+                Send a message
+              </a>
+
+              <Link
+                href="/support"
+                className="rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-center text-sm font-black uppercase tracking-[0.16em] transition hover:bg-white/[0.08]"
+                style={{ color: "#ffffff" }}
+              >
+                Open support
+              </Link>
+            </div>
+
+            <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/25">
+              <span>Questions</span>
+              <span>Support</span>
+              <span>Partnerships</span>
+              <span>Feedback</span>
             </div>
           </div>
 
-          {/* Contact radar visual */}
-          <div className="relative mx-auto aspect-square w-full max-w-[480px]">
-            <div className="absolute inset-[12%] rounded-full border border-cyan-400/15" />
-            <div className="absolute inset-[22%] rounded-full border border-pink-400/15" />
-            <div className="absolute inset-[32%] rounded-full border border-white/10" />
+          {/* Contact radar */}
+          <div className="relative mx-auto w-full max-w-xl">
+            <div className="absolute inset-10 rounded-full bg-cyan-400/10 blur-[100px]" />
 
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-[58%] w-[58%] rounded-full border border-white/10 bg-white/[0.025] shadow-[0_0_100px_rgba(0,170,255,0.08)] backdrop-blur-xl" />
-            </div>
+            <div className="relative aspect-square overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.025] p-6 shadow-2xl backdrop-blur-xl">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(34,211,238,0.12),transparent_28%),radial-gradient(circle_at_75%_25%,rgba(236,72,153,0.10),transparent_30%)]" />
 
-            <div className="absolute left-1/2 top-1/2 flex h-28 w-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[2rem] border border-white/15 bg-black/80 shadow-[0_0_60px_rgba(255,20,147,0.18)]">
-              <div className="text-center">
-                <div className="text-3xl font-black tracking-[0.15em]">K</div>
-                <div className="mt-1 text-[7px] uppercase tracking-[0.35em] text-white/35">
-                  CONNECT
+              <div className="relative flex h-full flex-col rounded-[2rem] border border-white/10 bg-black/35 p-7">
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-white/30">
+                    COMMUNICATION NETWORK
+                  </span>
+
+                  <span className="flex items-center gap-2 rounded-full border border-cyan-300/15 bg-cyan-300/[0.05] px-3 py-1.5 text-[8px] font-bold uppercase tracking-[0.18em] text-cyan-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
+                    Online
+                  </span>
+                </div>
+
+                <div className="relative flex flex-1 items-center justify-center">
+                  <div className="absolute h-64 w-64 rounded-full border border-cyan-300/10" />
+                  <div className="absolute h-48 w-48 rounded-full border border-white/10" />
+                  <div className="absolute h-32 w-32 rounded-full border border-fuchsia-400/10" />
+
+                  <div className="absolute h-64 w-64 animate-[spin_18s_linear_infinite] rounded-full border border-dashed border-white/[0.08]" />
+
+                  <div className="relative flex h-28 w-28 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/[0.07] shadow-[0_0_70px_rgba(34,211,238,0.18)]">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-black/50">
+                      <span className="text-xl font-black tracking-[0.1em]">
+                        K
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="absolute left-[7%] top-[28%] rounded-2xl border border-cyan-300/20 bg-black/70 px-4 py-3 backdrop-blur-xl">
+                    <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-cyan-300">
+                      General
+                    </p>
+                    <p className="mt-1 text-[10px] text-white/35">
+                      Questions
+                    </p>
+                  </div>
+
+                  <div className="absolute right-[4%] top-[25%] rounded-2xl border border-violet-300/20 bg-black/70 px-4 py-3 backdrop-blur-xl">
+                    <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-violet-300">
+                      Partners
+                    </p>
+                    <p className="mt-1 text-[10px] text-white/35">
+                      Collaboration
+                    </p>
+                  </div>
+
+                  <div className="absolute bottom-[18%] left-[18%] rounded-2xl border border-pink-300/20 bg-black/70 px-4 py-3 backdrop-blur-xl">
+                    <p className="text-[8px] font-bold uppercase tracking-[0.2em] text-pink-300">
+                      Support
+                    </p>
+                    <p className="mt-1 text-[10px] text-white/35">
+                      Assistance
+                    </p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <p className="text-lg font-black">01</p>
+                    <p className="mt-1 text-[8px] uppercase tracking-[0.16em] text-white/25">
+                      Message
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <p className="text-lg font-black">03</p>
+                    <p className="mt-1 text-[8px] uppercase tracking-[0.16em] text-white/25">
+                      Channels
+                    </p>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                    <p className="text-lg font-black">∞</p>
+                    <p className="mt-1 text-[8px] uppercase tracking-[0.16em] text-white/25">
+                      Possibilities
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div className="absolute left-[9%] top-[30%] rounded-2xl border border-pink-400/25 bg-black/75 px-4 py-3 backdrop-blur-xl">
-              <div className="text-[9px] font-bold uppercase tracking-[0.25em] text-pink-300">
-                Ideas
-              </div>
-              <div className="mt-1 text-xs text-white/50">Send a thought</div>
-            </div>
-
-            <div className="absolute right-[4%] top-[18%] rounded-2xl border border-cyan-400/25 bg-black/75 px-4 py-3 backdrop-blur-xl">
-              <div className="text-[9px] font-bold uppercase tracking-[0.25em] text-cyan-300">
-                Support
-              </div>
-              <div className="mt-1 text-xs text-white/50">We&apos;re here</div>
-            </div>
-
-            <div className="absolute bottom-[18%] left-[17%] rounded-2xl border border-purple-400/25 bg-black/75 px-4 py-3 backdrop-blur-xl">
-              <div className="text-[9px] font-bold uppercase tracking-[0.25em] text-purple-300">
-                Connect
-              </div>
-              <div className="mt-1 text-xs text-white/50">Build together</div>
-            </div>
-
-            <div className="absolute bottom-[8%] right-[15%] h-3 w-3 rounded-full bg-cyan-300 shadow-[0_0_25px_rgba(0,170,255,1)]" />
-            <div className="absolute left-[19%] top-[13%] h-2 w-2 rounded-full bg-pink-400 shadow-[0_0_20px_rgba(255,20,147,1)]" />
           </div>
         </div>
       </section>
 
-      {/* Contact channels */}
-      <section className="border-y border-white/[0.07] bg-white/[0.012] px-6 py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl">
+      {/* Channel selection */}
+      <section className="relative z-10 border-y border-white/10 bg-white/[0.018]">
+        <div className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
           <div className="mb-12">
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-cyan-300">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">
               Choose your channel
-            </div>
+            </p>
 
-            <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-5xl">
-              Where should we start?
+            <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
+              Route your message.
             </h2>
+
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/40">
+              Pick the conversation type that matches what you need. You can
+              change it anytime before sending.
+            </p>
           </div>
 
-          <div className="grid gap-5 lg:grid-cols-3">
-            {contactChannels.map((channel) => (
-              <div
-                key={channel.number}
-                className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-black/40 p-7 transition duration-300 hover:-translate-y-1 hover:border-white/20"
-              >
-                <div
-                  className="absolute right-[-30px] top-[-30px] h-32 w-32 rounded-full blur-[65px] transition group-hover:scale-125"
-                  style={{ background: channel.glow }}
-                />
+          <div className="grid gap-4 lg:grid-cols-3">
+            {channels.map((channel) => {
+              const selected = activeChannel === channel.id;
 
-                <div className="relative">
-                  <div className="flex items-center justify-between">
-                    <span
-                      className="text-3xl font-black"
-                      style={{ color: channel.accent }}
+              return (
+                <button
+                  key={channel.id}
+                  type="button"
+                  onClick={() => setActiveChannel(channel.id)}
+                  aria-pressed={selected}
+                  className="group rounded-[1.75rem] border p-6 text-left transition duration-300 hover:-translate-y-1"
+                  style={{
+                    color: "#ffffff",
+                    borderColor: selected
+                      ? channel.border
+                      : "rgba(255,255,255,0.08)",
+                    backgroundColor: selected
+                      ? channel.background
+                      : "rgba(255,255,255,0.025)",
+                    boxShadow: selected
+                      ? `0 0 35px ${channel.background}`
+                      : "none",
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-5">
+                    <div
+                      className="flex h-12 w-12 items-center justify-center rounded-2xl text-xs font-black"
+                      style={{
+                        color: channel.accent,
+                        backgroundColor: channel.background,
+                      }}
                     >
-                      {channel.icon}
-                    </span>
-
-                    <span className="text-[10px] font-bold tracking-[0.2em] text-white/20">
                       {channel.number}
-                    </span>
-                  </div>
+                    </div>
 
-                  <div
-                    className="mt-10 text-[9px] font-bold uppercase tracking-[0.3em]"
-                    style={{ color: channel.accent }}
-                  >
-                    {channel.label}
-                  </div>
-
-                  <h3 className="mt-3 text-2xl font-black">
-                    {channel.title}
-                  </h3>
-
-                  <p className="mt-3 min-h-[72px] text-sm leading-6 text-white/45">
-                    {channel.description}
-                  </p>
-
-                  <div
-                    className="mt-7 flex items-center gap-2 text-sm font-bold"
-                    style={{ color: channel.accent }}
-                  >
-                    Continue
-                    <span className="transition group-hover:translate-x-1">
+                    <span
+                      className="text-lg transition-transform duration-300"
+                      style={{
+                        color: selected
+                          ? channel.accent
+                          : "rgba(255,255,255,0.25)",
+                        transform: selected ? "translateX(3px)" : "none",
+                      }}
+                    >
                       →
                     </span>
                   </div>
-                </div>
-              </div>
-            ))}
+
+                  <p
+                    className="mt-8 text-[9px] font-bold uppercase tracking-[0.24em]"
+                    style={{ color: channel.accent }}
+                  >
+                    {channel.label}
+                  </p>
+
+                  <h3 className="mt-2 text-2xl font-black">
+                    {channel.title}
+                  </h3>
+
+                  <p className="mt-3 text-sm leading-7 text-white/40">
+                    {channel.description}
+                  </p>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Message console */}
-      <section className="px-6 py-20 sm:py-28">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.72fr_1.28fr]">
-          {/* Side info */}
-          <div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-pink-300">
-              Message Console
-            </div>
+      {/* Message Console */}
+      <section
+        id="message-console"
+        className="relative z-10 scroll-mt-20 px-6 py-24 lg:px-8 lg:py-32"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr]">
+            {/* Console info */}
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-7 sm:p-9">
+              <div
+                className="absolute right-0 top-0 h-64 w-64 rounded-full blur-[110px]"
+                style={{ backgroundColor: active.background }}
+              />
 
-            <h2 className="mt-4 text-4xl font-black leading-tight sm:text-5xl">
-              Drop us a signal.
-            </h2>
-
-            <p className="mt-5 max-w-md text-sm leading-7 text-white/45">
-              Select a topic and tell us what&apos;s on your mind. Your input
-              helps shape what KPLAYO becomes.
-            </p>
-
-            <div className="mt-9">
-              <div className="text-xs font-bold uppercase tracking-[0.2em] text-white/30">
-                Quick topics
-              </div>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {quickTopics.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => setTopic(item)}
-                    className="rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-2 text-xs font-semibold transition hover:border-cyan-400/30 hover:bg-cyan-400/10"
-                    style={{
-                      color: topic === item ? "#67e8f9" : "#ffffff",
-                    }}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-10 rounded-3xl border border-cyan-400/15 bg-cyan-400/[0.035] p-5">
-              <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cyan-400/10 text-cyan-300">
-                  ✦
-                </div>
-
-                <div>
-                  <div className="text-sm font-bold">Building in public.</div>
-                  <p className="mt-1 text-xs leading-5 text-white/40">
-                    KPLAYO is evolving. Feedback today can become a feature
-                    tomorrow.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Form */}
-          <form
-            onSubmit={handleSubmit}
-            className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.35)] sm:p-9"
-          >
-            <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-pink-500/10 blur-[90px]" />
-
-            {sent ? (
-              <div className="relative flex min-h-[500px] flex-col items-center justify-center text-center">
-                <div className="flex h-20 w-20 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/10 text-3xl text-cyan-300 shadow-[0_0_50px_rgba(0,170,255,0.15)]">
-                  ✓
-                </div>
-
-                <div className="mt-7 text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-300">
-                  Signal received
-                </div>
-
-                <h3 className="mt-3 text-3xl font-black">
-                  Thanks for reaching out.
-                </h3>
-
-                <p className="mt-4 max-w-md text-sm leading-6 text-white/45">
-                  Your message has been captured in this demo experience.
-                  The production contact backend will be connected during the
-                  relevant KPLAYO development phase.
+              <div className="relative">
+                <p
+                  className="text-[10px] font-bold uppercase tracking-[0.28em]"
+                  style={{ color: active.accent }}
+                >
+                  Active channel
                 </p>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSent(false);
-                    setMessage("");
-                  }}
-                  className="mt-8 rounded-full bg-white px-7 py-3.5 text-sm font-bold transition hover:scale-[1.03]"
-                  style={{ color: "#000000" }}
-                >
-                  Send another message
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="relative mb-8 flex items-center justify-between border-b border-white/10 pb-6">
-                  <div>
-                    <div className="text-xs font-bold uppercase tracking-[0.25em] text-white/30">
-                      New transmission
-                    </div>
-                    <div className="mt-1 text-lg font-bold">
-                      Contact KPLAYO
+                <h2 className="mt-4 text-4xl font-black tracking-tight">
+                  {active.title}
+                </h2>
+
+                <p className="mt-5 text-sm leading-7 text-white/45">
+                  {active.description}
+                </p>
+
+                <div className="mt-9 space-y-3">
+                  <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/25 p-4">
+                    <div
+                      className="h-2.5 w-2.5 rounded-full"
+                      style={{
+                        backgroundColor: active.accent,
+                        boxShadow: `0 0 14px ${active.accent}`,
+                      }}
+                    />
+
+                    <div>
+                      <p className="text-xs font-bold text-white/70">
+                        Message routing
+                      </p>
+                      <p className="mt-1 text-[10px] text-white/30">
+                        {active.label} channel selected
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-[0.2em] text-cyan-300">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(0,170,255,1)]" />
-                    Online
+                  <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/25 p-4">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/[0.05] text-xs text-white/50">
+                      ◈
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-bold text-white/70">
+                        Secure communication
+                      </p>
+                      <p className="mt-1 text-[10px] text-white/30">
+                        Share only the information needed to help you.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/40">
-                      Name
-                    </span>
+                <div className="mt-9 border-t border-white/10 pt-7">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-white/25">
+                    Need immediate help?
+                  </p>
 
-                    <input
-                      type="text"
-                      placeholder="Your name"
-                      className="mt-2 w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-cyan-400/50 focus:bg-cyan-400/[0.03]"
-                    />
-                  </label>
-
-                  <label className="block">
-                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/40">
-                      Email
-                    </span>
-
-                    <input
-                      type="email"
-                      placeholder="you@example.com"
-                      className="mt-2 w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-pink-400/50 focus:bg-pink-400/[0.03]"
-                    />
-                  </label>
-                </div>
-
-                <label className="mt-6 block">
-                  <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/40">
-                    Topic
-                  </span>
-
-                  <select
-                    value={topic}
-                    onChange={(event) => setTopic(event.target.value)}
-                    className="mt-2 w-full appearance-none rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-sm text-white outline-none transition focus:border-purple-400/50"
+                  <Link
+                    href="/support"
+                    className="mt-4 inline-flex rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 text-xs font-bold transition hover:bg-white/[0.08]"
+                    style={{ color: "#ffffff" }}
                   >
-                    <option value="General" className="bg-[#08090c]">
-                      General
-                    </option>
-                    <option value="Account & Login" className="bg-[#08090c]">
-                      Account & Login
-                    </option>
-                    <option value="Games" className="bg-[#08090c]">
-                      Games
-                    </option>
-                    <option value="LIVE" className="bg-[#08090c]">
-                      LIVE
-                    </option>
-                    <option value="K-Coins" className="bg-[#08090c]">
-                      K-Coins
-                    </option>
-                    <option value="Safety" className="bg-[#08090c]">
-                      Safety
-                    </option>
-                    <option value="Partnership" className="bg-[#08090c]">
-                      Partnership
-                    </option>
-                  </select>
-                </label>
+                    Visit Support Center
+                  </Link>
+                </div>
+              </div>
+            </div>
 
-                <label className="mt-6 block">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-[0.18em] text-white/40">
-                      Message
-                    </span>
-
-                    <span className="text-[10px] text-white/25">
-                      {message.length}/{maxCharacters}
-                    </span>
+            {/* Form */}
+            <div className="rounded-[2rem] border border-white/10 bg-white/[0.025] p-7 sm:p-9">
+              {sent ? (
+                <div className="flex min-h-[500px] flex-col items-center justify-center text-center">
+                  <div className="flex h-20 w-20 items-center justify-center rounded-full border border-cyan-300/30 bg-cyan-300/[0.08] text-3xl text-cyan-300 shadow-[0_0_50px_rgba(34,211,238,0.16)]">
+                    ✓
                   </div>
 
-                  <textarea
-                    value={message}
-                    maxLength={maxCharacters}
-                    onChange={(event) => setMessage(event.target.value)}
-                    placeholder="Tell us what you want to say..."
-                    rows={7}
-                    className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-4 py-4 text-sm leading-6 text-white outline-none transition placeholder:text-white/20 focus:border-pink-400/50 focus:bg-pink-400/[0.03]"
-                  />
-                </label>
+                  <p className="mt-8 text-[10px] font-bold uppercase tracking-[0.28em] text-cyan-300">
+                    Signal prepared
+                  </p>
 
-                <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="text-xs leading-5 text-white/30">
-                    Topic:{" "}
-                    <span className="font-semibold text-white/55">
-                      {topic}
-                    </span>
+                  <h2 className="mt-3 text-4xl font-black">
+                    Message received.
+                  </h2>
+
+                  <p className="mt-5 max-w-md text-sm leading-7 text-white/40">
+                    Your message has been prepared in this interactive
+                    contact experience. A production backend can connect this
+                    form to KPLAYO&apos;s support or communication system.
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={resetMessage}
+                    className="mt-9 rounded-full bg-white px-7 py-4 text-sm font-black uppercase tracking-[0.15em] transition hover:scale-[1.03]"
+                    style={{ color: "#000000" }}
+                  >
+                    Send another
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-6">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">
+                        Message console
+                      </p>
+                      <h2 className="mt-2 text-2xl font-black">
+                        Compose signal
+                      </h2>
+                    </div>
+
+                    <div
+                      className="rounded-full border px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.18em]"
+                      style={{
+                        color: active.accent,
+                        borderColor: active.border,
+                        backgroundColor: active.background,
+                      }}
+                    >
+                      {active.label}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="topic"
+                      className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/35"
+                    >
+                      Topic
+                    </label>
+
+                    <select
+                      id="topic"
+                      value={topic}
+                      onChange={(event) => setTopic(event.target.value)}
+                      className="mt-3 w-full rounded-2xl border border-white/10 bg-black/35 px-4 py-4 text-sm outline-none transition focus:border-cyan-300/40"
+                      style={{ color: "#ffffff" }}
+                    >
+                      {topics.map((item) => (
+                        <option
+                          key={item}
+                          value={item}
+                          className="bg-[#08090d] text-white"
+                        >
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="mt-6">
+                    <label
+                      htmlFor="message"
+                      className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/35"
+                    >
+                      Your message
+                    </label>
+
+                    <textarea
+                      id="message"
+                      value={message}
+                      onChange={(event) => {
+                        if (event.target.value.length <= 500) {
+                          setMessage(event.target.value);
+                        }
+                      }}
+                      placeholder="Tell us what you need..."
+                      rows={9}
+                      className="mt-3 w-full resize-none rounded-2xl border border-white/10 bg-black/35 px-4 py-4 text-sm leading-7 text-white outline-none placeholder:text-white/20 transition focus:border-cyan-300/40"
+                    />
+
+                    <div className="mt-2 flex justify-end text-[9px] uppercase tracking-[0.16em] text-white/25">
+                      {message.length}/500
+                    </div>
+                  </div>
+
+                  <div className="mt-7 rounded-2xl border border-white/10 bg-white/[0.025] p-4">
+                    <p className="text-[10px] leading-5 text-white/30">
+                      Please avoid sending passwords, payment credentials,
+                      authentication codes, or other highly sensitive
+                      information through this form.
+                    </p>
                   </div>
 
                   <button
                     type="submit"
-                    className="rounded-full bg-white px-7 py-3.5 text-sm font-black transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_35px_rgba(255,255,255,0.12)]"
-                    style={{ color: "#000000" }}
+                    disabled={!message.trim()}
+                    className="mt-6 w-full rounded-full px-6 py-4 text-sm font-black uppercase tracking-[0.16em] transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-40"
+                    style={{
+                      color: "#000000",
+                      backgroundColor: "#ffffff",
+                    }}
                   >
-                    Send Message →
+                    Transmit message →
                   </button>
-                </div>
-              </>
-            )}
-          </form>
+
+                  <p className="mt-4 text-center text-[9px] uppercase tracking-[0.15em] text-white/20">
+                    Topic: {topic}
+                  </p>
+                </form>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="relative border-t border-white/[0.07] px-6 py-24">
-        <div className="mx-auto max-w-5xl text-center">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-pink-400/20 bg-pink-400/10 text-xl text-pink-300">
-            K
+      {/* Quick Topics */}
+      <section className="relative z-10 border-y border-white/10 bg-white/[0.018]">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr] lg:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-fuchsia-300">
+                Quick routes
+              </p>
+
+              <h2 className="mt-4 text-3xl font-black sm:text-4xl">
+                Looking for something specific?
+              </h2>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {topics.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => {
+                    setTopic(item);
+                    document
+                      .getElementById("message-console")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="rounded-full border border-white/10 bg-white/[0.035] px-5 py-3 text-xs font-bold text-white/60 transition hover:border-cyan-300/25 hover:bg-cyan-300/[0.05] hover:text-white"
+                  style={{ color: "#ffffff" }}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-white/30">
-            Until next time
+      {/* Closing CTA */}
+      <section className="relative z-10 px-6 py-24 lg:px-8 lg:py-32">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.025]">
+          <div className="relative px-7 py-16 text-center sm:px-12 sm:py-20">
+            <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-fuchsia-500/10 blur-[110px]" />
+
+            <div className="relative">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-fuchsia-300">
+                KPLAYO network
+              </p>
+
+              <h2 className="mx-auto mt-4 max-w-3xl text-4xl font-black tracking-tight sm:text-6xl">
+                Play.
+                <span className="text-white/30"> Connect.</span>
+                <span className="block bg-gradient-to-r from-cyan-300 to-fuchsia-400 bg-clip-text text-transparent">
+                  Live.
+                </span>
+              </h2>
+
+              <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-white/40">
+                Your next conversation could become the beginning of
+                something bigger inside the KPLAYO universe.
+              </p>
+
+              <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+                <Link
+                  href="/community"
+                  className="rounded-full bg-white px-7 py-4 text-sm font-black uppercase tracking-[0.15em] transition hover:scale-[1.03]"
+                  style={{ color: "#000000" }}
+                >
+                  Explore community
+                </Link>
+
+                <Link
+                  href="/"
+                  className="rounded-full border border-white/15 bg-white/[0.04] px-7 py-4 text-sm font-black uppercase tracking-[0.15em] transition hover:bg-white/[0.08]"
+                  style={{ color: "#ffffff" }}
+                >
+                  Back to KPLAYO
+                </Link>
+              </div>
+            </div>
           </div>
-
-          <h2 className="mt-5 text-4xl font-black tracking-tight sm:text-6xl">
-            Play. Connect.{" "}
-            <span className="text-cyan-300">Live.</span>
-          </h2>
-
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-white/40">
-            Every great community starts with a connection. Yours could be
-            the next one.
-          </p>
-
-          <Link
-            href="/"
-            className="mt-9 inline-flex rounded-full bg-white px-8 py-4 text-sm font-black transition duration-300 hover:-translate-y-1 hover:shadow-[0_0_40px_rgba(255,255,255,0.14)]"
-            style={{ color: "#000000" }}
-          >
-            Explore KPLAYO
-          </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-white/[0.07] px-6 py-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 text-center text-xs text-white/25 sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <div className="font-bold tracking-[0.2em] text-white/50">
-            KPLAYO
+      <footer className="relative z-10 border-t border-white/10 bg-black/45">
+        <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <div>
+              <img
+                src="/brand/kplayo_logo_horizontal_white_transparent.svg"
+                alt="KPLAYO"
+                className="h-8 w-auto"
+              />
+
+              <p className="mt-4 text-xs uppercase tracking-[0.2em] text-white/25">
+                Play. Connect. Live.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-x-6 gap-y-3 text-xs text-white/30">
+              <Link
+                href="/privacy"
+                className="transition hover:text-white"
+              >
+                Privacy
+              </Link>
+              <Link
+                href="/cookies"
+                className="transition hover:text-white"
+              >
+                Cookies
+              </Link>
+              <Link
+                href="/terms"
+                className="transition hover:text-white"
+              >
+                Terms
+              </Link>
+              <Link
+                href="/support"
+                className="transition hover:text-white"
+              >
+                Support
+              </Link>
+            </div>
           </div>
 
-          <div>Play. Connect. Live.</div>
-
-          <div>© KPLAYO.COM</div>
+          <div className="mt-10 border-t border-white/10 pt-6 text-xs text-white/20">
+            © {new Date().getFullYear()} KPLAYO.COM. All rights reserved.
+          </div>
         </div>
       </footer>
     </main>
